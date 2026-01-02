@@ -75,12 +75,12 @@ export interface StoredAttachment {
  */
 function ensureAttachmentsDir(chatId: string): string {
   if (!existsSync(ATTACHMENTS_DIR)) {
-    mkdirSync(ATTACHMENTS_DIR, { recursive: true });
+    mkdirSync(ATTACHMENTS_DIR, { recursive: true, mode: 0o755 });
   }
 
   const chatAttachmentsDir = join(ATTACHMENTS_DIR, chatId);
   if (!existsSync(chatAttachmentsDir)) {
-    mkdirSync(chatAttachmentsDir, { recursive: true });
+    mkdirSync(chatAttachmentsDir, { recursive: true, mode: 0o755 });
   }
 
   return chatAttachmentsDir;

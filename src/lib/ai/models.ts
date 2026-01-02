@@ -65,6 +65,7 @@ export const MODEL_OPTIONS: ModelOption[] = [
   { label: "GPT-5 (default)", id: "openai/gpt-5", provider: "openai" },
   { label: "GPT-4o", id: "openai/gpt-4o", provider: "openai" },
   { label: "o4-mini", id: "openai/o4-mini", provider: "openai" },
+  { label: "GPT-5 Nano", id: "openai/gpt-5-nano", provider: "openai" },
 
   // ──────────────────────────────────────────────────────────────────────
   // AI GATEWAY MODELS

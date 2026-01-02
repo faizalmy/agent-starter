@@ -39,6 +39,7 @@
 import { getTime } from "./getTime";
 import { getWeather } from "./getWeather";
 import { summarizeAttachments } from "./summarizeAttachments";
+import { crawlWeb } from "./crawlWeb";
 
 // ──────────────────────────────────────────────────────────────────────
 // IMPORT NEW TOOLS HERE
@@ -75,6 +76,11 @@ export const tools = {
   // ──────────────────────────────────────────────────────────────────────
   getWeather, // Get weather for a city
   summarizeAttachments, // Summarize uploaded attachments
+
+  // ──────────────────────────────────────────────────────────────────────
+  // WEB CRAWLING TOOLS
+  // ──────────────────────────────────────────────────────────────────────
+  crawlWeb, // Crawl web pages and convert to Markdown using Teracrawl
 
   // ──────────────────────────────────────────────────────────────────────
   // ADD NEW TOOLS HERE

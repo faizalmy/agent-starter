@@ -2,7 +2,7 @@ import "server-only";
 
 import { generateId, type UIMessage } from "ai";
 import { existsSync, mkdirSync } from "node:fs";
-import { readdir, readFile, stat, unlink, writeFile } from "node:fs/promises";
+import { readdir, readFile, stat, unlink, writeFile, access } from "node:fs/promises";
 import path from "node:path";
 
 import { OMITTED_ATTACHMENT_URL } from "@/lib/chat/constants";
@@ -43,7 +43,7 @@ const CHAT_DIR = path.join(process.cwd(), ".chats");
 
 function ensureChatDir() {
   if (!existsSync(CHAT_DIR)) {
-    mkdirSync(CHAT_DIR, { recursive: true });
+    mkdirSync(CHAT_DIR, { recursive: true, mode: 0o755 });
   }
 }
 
@@ -291,8 +291,15 @@ export async function listChats(): Promise<ChatSummary[]> {
  * The chat JSON deletion might move to a database DELETE query.
  */
 export async function deleteChat(id: string): Promise<void> {
-  // Delete chat file
-  await unlink(getChatFile(id));
+  // Delete chat file if it exists
+  const chatFile = getChatFile(id);
+  try {
+    await access(chatFile);
+    await unlink(chatFile);
+  } catch {
+    // File doesn't exist or can't be accessed - that's okay, continue
+    // This handles cases where the file was already deleted or never created
+  }
 
   // Delete associated attachments
   deleteAttachments(id);
