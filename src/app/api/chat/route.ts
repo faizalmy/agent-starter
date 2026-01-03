@@ -38,6 +38,7 @@ import {
   type UIMessage,
 } from "ai";
 import { openai } from "@ai-sdk/openai";
+import { auth } from "@clerk/nextjs/server";
 
 import { assertAllowedModelId, getDefaultModelId } from "@/lib/ai/models";
 import { getModel } from "@/lib/ai/provider";
@@ -125,7 +126,15 @@ const NANO_BANANA_PRO_MODEL_ID = "gateway/google/gemini-3-pro-image";
 export async function POST(req: Request) {
   try {
     // ──────────────────────────────────────────────────────────────────────
-    // 1. PARSE AND VALIDATE REQUEST
+    // 1. AUTHENTICATION CHECK
+    // ──────────────────────────────────────────────────────────────────────
+    const { userId } = await auth();
+    if (!userId) {
+      return Response.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // ──────────────────────────────────────────────────────────────────────
+    // 2. PARSE AND VALIDATE REQUEST
     // ──────────────────────────────────────────────────────────────────────
     const body = (await req.json()) as ChatRequestBody;
 
@@ -152,7 +161,7 @@ export async function POST(req: Request) {
     }
 
     // ──────────────────────────────────────────────────────────────────────
-    // 2. LOAD CHAT HISTORY
+    // 3. LOAD CHAT HISTORY
     // ──────────────────────────────────────────────────────────────────────
     // Client sends only the new message; server loads full history from storage.
     // This keeps client payloads small and ensures consistency.
@@ -281,7 +290,7 @@ export async function POST(req: Request) {
     }
 
     // ──────────────────────────────────────────────────────────────────────
-    // 3. CONFIGURE MODEL AND FEATURES
+    // 4. CONFIGURE MODEL AND FEATURES
     // ──────────────────────────────────────────────────────────────────────
     const requestedModel = body.model?.trim() || getDefaultModelId();
     const useSearch = Boolean(body.useSearch);
@@ -291,7 +300,7 @@ export async function POST(req: Request) {
     assertAllowedModelId(requestedModel);
 
     // ──────────────────────────────────────────────────────────────────────
-    // 4. CONFIGURE REASONING (O-SERIES MODELS)
+    // 5. CONFIGURE REASONING (O-SERIES MODELS)
     // ──────────────────────────────────────────────────────────────────────
     // Reasoning features for o-series models (o1, o4-mini, etc.).
     // Environment variables:
@@ -317,7 +326,7 @@ export async function POST(req: Request) {
         requestedModel.startsWith("openai/o"));
 
     // ──────────────────────────────────────────────────────────────────────
-    // 5. CONFIGURE WEB SEARCH (OPTIONAL)
+    // 6. CONFIGURE WEB SEARCH (OPTIONAL)
     // ──────────────────────────────────────────────────────────────────────
     // OpenAI provides a built-in web_search tool for GPT models.
     // We only enable it when the user toggles search in the UI.

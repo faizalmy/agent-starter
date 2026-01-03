@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { AuthNav } from "@/components/auth/AuthNav";
 import { cn } from "@/lib/utils";
 import type { ComponentProps, ReactNode } from "react";
 import { PlusIcon } from "lucide-react";
@@ -53,6 +54,7 @@ export function ChatHeader({
 
       <div className="flex items-center gap-1">
         <ThemeToggle />
+        <AuthNav />
         {actions}
         {onNewChat && (
           <Button

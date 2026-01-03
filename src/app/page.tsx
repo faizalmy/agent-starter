@@ -17,6 +17,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ScrollText } from "@/components/scroll-text";
+import { AuthNav } from "@/components/auth/AuthNav";
 import {
   siGithub,
   siNextdotjs,
@@ -53,6 +54,7 @@ export default function Home() {
           </Link>
           <div className="flex items-center gap-3">
             <ThemeToggle />
+            <AuthNav />
             <Button asChild size="sm" className="shadow-md hover:shadow-lg transition-shadow">
               <Link href="/chat">
                 Try it now

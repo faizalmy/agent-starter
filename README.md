@@ -140,6 +140,7 @@ const weather = await getWeather({ city: "San Francisco" });
 - Node.js 18+ ([Download](https://nodejs.org/))
 - pnpm (`npm install -g pnpm`)
 - OpenAI API key ([Get one here](https://platform.openai.com/api-keys))
+- Clerk account ([Get one here](https://dashboard.clerk.com)) - for authentication (optional, can configure after deployment)
 
 ### Installation
 
@@ -154,6 +155,7 @@ pnpm install
 # Set up environment variables
 cp .env.example .env.local
 # Edit .env.local and add your OPENAI_API_KEY
+# For authentication, also add your Clerk keys (see Authentication section below)
 
 # Start the development server
 pnpm dev
@@ -167,6 +169,24 @@ Open [http://localhost:3000](http://localhost:3000) to see your app! 🎉
 2. **Test tool calling** - The AI will call the `getTime` tool
 3. **Enable search** - Toggle web search and ask "Latest news about AI"
 4. **Customize** - Edit `src/lib/ai/system-prompt.ts` to change behavior
+
+### Authentication (Optional)
+
+The application includes Clerk authentication integration. To enable it:
+
+1. **Create a Clerk account** - Sign up at [https://dashboard.clerk.com](https://dashboard.clerk.com)
+2. **Create an application** - Follow the setup wizard
+3. **Copy your keys** - Go to API Keys section and copy:
+   - Publishable key (`pk_test_...`)
+   - Secret key (`sk_test_...`)
+4. **Add to `.env.local`**:
+   ```bash
+   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
+   CLERK_SECRET_KEY=sk_test_...
+   ```
+5. **Restart the dev server** - Authentication UI will appear in the top navigation
+
+> **Note**: Clerk offers a free tier perfect for development and small applications. Authentication is optional and can be configured after deployment if needed.
 
 ---
 
@@ -260,6 +280,8 @@ agent/
 | Variable | Required | Description | Default |
 |----------|----------|-------------|---------|
 | `OPENAI_API_KEY` | ✅ | OpenAI API key | - |
+| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | ❌ | Clerk publishable key (for authentication) | - |
+| `CLERK_SECRET_KEY` | ❌ | Clerk secret key (for authentication) | - |
 | `GROQ_API_KEY` | ❌ | Groq API key for DeepSeek R1 | - |
 | `AI_GATEWAY_API_KEY` | ❌ | Vercel AI Gateway key | - |
 | `AI_MODEL` | ❌ | Default model ID | `openai/gpt-5` |
@@ -294,7 +316,7 @@ For production use, you'll need to upgrade from the file-based storage:
 
 - [ ] **Database** - Set up Vercel Postgres or Supabase (see [DEPLOYMENT.md](DEPLOYMENT.md))
 - [ ] **Blob Storage** - Configure S3/R2/Vercel Blob for file attachments
-- [ ] **Authentication** - Add NextAuth, Clerk, or Supabase Auth
+- [ ] **Authentication** - Configure Clerk keys (already integrated, just add keys)
 - [ ] **Rate Limiting** - Implement per-user/IP rate limits
 - [ ] **Monitoring** - Set up Sentry, Vercel Analytics, or similar
 
