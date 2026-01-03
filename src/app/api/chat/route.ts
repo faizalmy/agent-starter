@@ -44,7 +44,7 @@ import { assertAllowedModelId, getDefaultModelId } from "@/lib/ai/models";
 import { getModel } from "@/lib/ai/provider";
 import { SYSTEM_PROMPT } from "@/lib/ai/system-prompt";
 import { tools } from "@/lib/ai/tools";
-import { loadChat, saveChat } from "@/lib/chat/server/fileChatStore";
+import { loadChat, saveChat } from "@/lib/chat/server/supabaseChatStore";
 import {
   getParentId,
   mergeMessagesById,
@@ -167,7 +167,7 @@ export async function POST(req: Request) {
     // This keeps client payloads small and ensures consistency.
     let storedMessages: UIMessage[] = [];
     try {
-      storedMessages = await loadChat(id);
+      storedMessages = await loadChat(id, userId);
     } catch (err) {
       console.warn("[API /api/chat] Failed to load chat history, starting fresh:", err);
       storedMessages = [];
@@ -627,7 +627,7 @@ export async function POST(req: Request) {
         }
 
         try {
-          await saveChat({ id, messages: messagesWithIds });
+          await saveChat({ id, userId, messages: messagesWithIds });
           console.log(
             `[API /api/chat] Chat ${id} saved successfully with ${messagesWithIds.length} messages`
           );

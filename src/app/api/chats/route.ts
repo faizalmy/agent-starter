@@ -1,5 +1,5 @@
 import { auth } from "@clerk/nextjs/server";
-import { createChat, listChats } from "@/lib/chat/server/fileChatStore";
+import { createChat, listChats } from "@/lib/chat/server/supabaseChatStore";
 
 export async function GET() {
   const { userId } = await auth();
@@ -7,7 +7,7 @@ export async function GET() {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const chats = await listChats();
+  const chats = await listChats(userId);
   return Response.json({ chats });
 }
 
@@ -17,7 +17,7 @@ export async function POST() {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const id = await createChat();
+  const id = await createChat(userId);
   return Response.json({ id }, { status: 201 });
 }
 

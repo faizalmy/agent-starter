@@ -49,3 +49,5 @@ next-env.d.ts
 .github/NEXT_STEPS.md
 .github/IMAGE_PROMPTS.md
 .github/README.md
+
+/src/generated/prisma

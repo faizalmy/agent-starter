@@ -1,5 +1,5 @@
 import { auth } from "@clerk/nextjs/server";
-import { deleteChat } from "@/lib/chat/server/fileChatStore";
+import { deleteChat } from "@/lib/chat/server/supabaseChatStore";
 
 export async function DELETE(
   _req: Request,
@@ -16,7 +16,7 @@ export async function DELETE(
   }
 
   try {
-    await deleteChat(id);
+    await deleteChat(id, userId);
   } catch (err) {
     // If the chat doesn't exist, treat it as already deleted.
     console.warn("[chats] delete failed:", err);

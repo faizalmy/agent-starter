@@ -1,0 +1,37 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Chat {
+  id        String    @id
+  userId    String    @map("user_id")
+  title     String?
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @default(now()) @updatedAt @map("updated_at")
+  messages  Message[]
+
+  @@index([userId], name: "idx_chats_user_id")
+  @@index([updatedAt(sort: Desc)], name: "idx_chats_updated_at")
+  @@map("chats")
+}
+
+model Message {
+  id        String   @id
+  chatId    String   @map("chat_id")
+  role      String // 'user' | 'assistant' | 'system'
+  content   Json // JSONB in PostgreSQL
+  createdAt DateTime @default(now()) @map("created_at")
+  chat      Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
+
+  @@index([chatId], name: "idx_messages_chat_id")
+  @@map("messages")
+}
