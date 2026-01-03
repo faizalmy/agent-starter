@@ -1,4 +1,5 @@
-import { loadChat } from "@/lib/chat/server/fileChatStore";
+import { loadChat } from "@/lib/chat/server/supabaseChatStore";
+import { auth } from "@clerk/nextjs/server";
 import { ChatClient } from "@/components/chat/ChatClient";
 import type { UIMessage } from "ai";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -74,9 +75,17 @@ export default async function ChatIdPage(props: {
     );
   }
 
+  const { userId } = await auth();
+  if (!userId) {
+    // If not authenticated, redirect to home
+    const { redirect } = await import("next/navigation");
+    redirect("/");
+    return; // TypeScript guard - redirect throws but TypeScript doesn't know
+  }
+
   let initialMessages: UIMessage[] = [];
   try {
-    initialMessages = await loadChat(id);
+    initialMessages = await loadChat(id, userId!);
   } catch (err) {
     // Graceful fallback: if the stored chat can't be loaded, start with empty history.
     console.warn("[chat] failed to load chat, starting fresh:", err);

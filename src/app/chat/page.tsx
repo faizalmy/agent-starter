@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
+import { auth } from "@clerk/nextjs/server";
 
-import { createChat } from "@/lib/chat/server/fileChatStore";
+import { createChat } from "@/lib/chat/server/supabaseChatStore";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Terminal, Code2, ExternalLink } from "lucide-react";
@@ -72,6 +73,10 @@ export default async function ChatPage() {
 
   // Docs-aligned: always create a new chat and redirect to /chat/[id].
   // Ref: https://ai-sdk.dev/docs/ai-sdk-ui/chatbot-message-persistence
-  const id = await createChat();
+  const { userId } = await auth();
+  if (!userId) {
+    redirect("/");
+  }
+  const id = await createChat(userId);
   redirect(`/chat/${id}`);
 }
