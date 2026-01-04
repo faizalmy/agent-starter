@@ -42,6 +42,8 @@ import { summarizeAttachments } from "./summarizeAttachments";
 import { crawlWeb } from "./crawlWeb";
 import { searchAndCrawlWeb } from "./searchAndCrawlWeb";
 import { searchWeb } from "./searchWeb";
+import { convertToJson } from "./convertToJson";
+import { generateCsv } from "./generateCsv";
 
 // ──────────────────────────────────────────────────────────────────────
 // IMPORT NEW TOOLS HERE
@@ -75,8 +77,10 @@ export const tools = {
   // ──────────────────────────────────────────────────────────────────────
   // UTILITY TOOLS
   // ──────────────────────────────────────────────────────────────────────
-  getWeather, // Get weather for a city
-  summarizeAttachments, // Summarize uploaded attachments
+  // getWeather, // Get weather for a city
+  // summarizeAttachments, // Summarize uploaded attachments
+  convertToJson, // Convert data to JSON with special type handling
+  generateCsv, // Generate CSV from tabular data (arrays of objects or arrays)
 
   // ──────────────────────────────────────────────────────────────────────
   // WEB CRAWLING TOOLS
