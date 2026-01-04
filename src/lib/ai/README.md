@@ -2,7 +2,7 @@
 
 This folder contains the "AI boundary" for the template:
 
-- Multi-provider support (OpenAI, Groq, AI Gateway)
+- Multi-provider support (OpenAI, Google, Groq, AI Gateway)
 - Model allowlisting + normalization
 - System prompt(s)
 - Tool registry
@@ -23,12 +23,18 @@ Keeping this separate from UI and route handlers makes upgrades easy:
 
 ### Multi-Provider Support
 
-The starter supports three provider types out of the box:
+The starter supports four provider types out of the box:
 
 **OpenAI (Default)**
 ```typescript
 // Handles: openai/gpt-5, openai/gpt-4o, openai/o4-mini, etc.
 // Configured via: OPENAI_API_KEY
+```
+
+**Google**
+```typescript
+// Handles: google/gemini-2.5-pro, google/gemini-1.5-pro, etc.
+// Configured via: GOOGLE_GENERATIVE_AI_API_KEY
 ```
 
 **Groq**
@@ -44,7 +50,7 @@ The starter supports three provider types out of the box:
 ```
 
 Provider dispatch logic is in `provider.ts`:
-- Checks model ID prefix (openai/, groq/, gateway/)
+- Checks model ID prefix (openai/, google/, groq/, gateway/)
 - Routes to appropriate provider
 - Applies provider-specific configuration
 

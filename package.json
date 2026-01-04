@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ai-sdk/gateway": "^3.0.0",
+    "@ai-sdk/google": "^3.0.2",
     "@ai-sdk/groq": "^3.0.0",
     "@ai-sdk/openai": "^3.0.0",
     "@ai-sdk/react": "^3.0.1",

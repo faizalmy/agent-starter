@@ -7,8 +7,10 @@ import type { LanguageModel } from "ai";
 
 import { createGateway, extractReasoningMiddleware, wrapLanguageModel } from "ai";
 import { groq } from "@ai-sdk/groq";
+import { google } from "@ai-sdk/google";
 import {
   normalizeGatewayModelId,
+  normalizeGoogleModelId,
   normalizeGroqModelId,
   normalizeOpenAIModelId,
 } from "./models";
@@ -19,7 +21,7 @@ import {
 // This file centralizes all AI provider setup and routing logic.
 //
 // KEY CONCEPTS:
-// - Each provider (OpenAI, Groq, Gateway) has its own setup function
+// - Each provider (OpenAI, Google, Groq, Gateway) has its own setup function
 // - The main getModel() function routes to the correct provider based on model ID
 // - Middleware (like reasoning extraction) is applied here transparently
 //
@@ -81,6 +83,29 @@ const gatewayProvider = createGateway({
 export function getGatewayModel(modelId: string): LanguageModel {
   const id = normalizeGatewayModelId(modelId);
   return gatewayProvider(id);
+}
+
+// ============================================================================
+// GOOGLE PROVIDER
+// ============================================================================
+
+/**
+ * Get a Google model instance.
+ *
+ * Supports all Google Gemini models including gemini-2.5-pro, gemini-1.5-pro, etc.
+ *
+ * Environment variable required: GOOGLE_GENERATIVE_AI_API_KEY
+ *
+ * @param modelId - Full model ID (e.g., "google/gemini-2.5-pro") or just the model name
+ * @returns Language model instance ready for use with streamText()
+ */
+export function getGoogleModel(modelId: string): LanguageModel {
+  // Normalize "google/gemini-2.5-pro" -> "gemini-2.5-pro" for the Google provider.
+  const id = normalizeGoogleModelId(modelId);
+
+  // `@ai-sdk/google` reads GOOGLE_GENERATIVE_AI_API_KEY from the environment by default.
+  // Keeping provider creation centralized makes future changes low-impact.
+  return google(id);
 }
 
 // ============================================================================
@@ -148,6 +173,7 @@ function maybeWrapWithThinkTagReasoning(modelId: string, model: LanguageModel) {
  * This is the main entry point for getting AI models. It routes to the correct
  * provider based on the model ID prefix convention:
  * - "gateway/..." → AI Gateway
+ * - "google/..." → Google (Gemini)
  * - "groq/..." → Groq
  * - "openai/..." or no prefix → OpenAI (default)
  *
@@ -177,6 +203,13 @@ export function getModel(modelId: string): LanguageModel {
   // ──────────────────────────────────────────────────────────────────────
   if (trimmed.startsWith("gateway/")) {
     return maybeWrapWithThinkTagReasoning(trimmed, getGatewayModel(trimmed));
+  }
+
+  // ──────────────────────────────────────────────────────────────────────
+  // GOOGLE
+  // ──────────────────────────────────────────────────────────────────────
+  if (trimmed.startsWith("google/")) {
+    return maybeWrapWithThinkTagReasoning(trimmed, getGoogleModel(trimmed));
   }
 
   // ──────────────────────────────────────────────────────────────────────

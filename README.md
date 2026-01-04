@@ -229,6 +229,10 @@ export const tools = {
 // Use Groq for faster inference
 AI_MODEL=groq/deepseek-r1-distill-llama-70b
 
+// Use Google Gemini directly
+AI_MODEL=google/gemini-2.5-pro
+GOOGLE_GENERATIVE_AI_API_KEY=...
+
 // Use AI Gateway for cost optimization
 AI_MODEL=gateway/openai/gpt-5
 AI_GATEWAY_API_KEY=vck-...

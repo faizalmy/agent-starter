@@ -136,7 +136,7 @@ export const generateCsv = tool({
       // Determine if data is array of objects or array of arrays
       const isArrayOfObjects = data.every((item) => typeof item === "object" && item !== null && !Array.isArray(item));
 
-      let csvRows: string[] = [];
+      const csvRows: string[] = [];
       let columnHeaders: string[] = [];
       let columnCount = 0;
 

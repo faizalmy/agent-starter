@@ -77,6 +77,15 @@ export const MODEL_OPTIONS: ModelOption[] = [
   { label: "Nano Banana Pro (AI Gateway)", id: "gateway/google/gemini-3-pro-image", provider: "google" },
 
   // ──────────────────────────────────────────────────────────────────────
+  // GOOGLE MODELS
+  // ──────────────────────────────────────────────────────────────────────
+  // Direct Google provider integration for Gemini models.
+  // Requires GOOGLE_GENERATIVE_AI_API_KEY environment variable.
+  { label: "Gemini 2.5 Pro", id: "google/gemini-2.5-pro", provider: "google" },
+  { label: "Gemini 1.5 Pro", id: "google/gemini-1.5-pro", provider: "google" },
+  { label: "Gemini 1.5 Flash", id: "google/gemini-1.5-flash", provider: "google" },
+
+  // ──────────────────────────────────────────────────────────────────────
   // GROQ MODELS
   // ──────────────────────────────────────────────────────────────────────
   // Groq provides fast inference for open-source models.
@@ -170,6 +179,24 @@ export function normalizeGatewayModelId(modelId: string): string {
   const trimmed = modelId.trim();
   if (trimmed.startsWith("gateway/")) {
     return trimmed.slice("gateway/".length);
+  }
+  return trimmed;
+}
+
+/**
+ * Normalize Google model IDs by removing the "google/" prefix.
+ *
+ * @param modelId - Full model ID (e.g., "google/gemini-2.5-pro")
+ * @returns Normalized ID without prefix (e.g., "gemini-2.5-pro")
+ *
+ * @example
+ * normalizeGoogleModelId("google/gemini-2.5-pro") // "gemini-2.5-pro"
+ * normalizeGoogleModelId("gemini-2.5-pro")        // "gemini-2.5-pro"
+ */
+export function normalizeGoogleModelId(modelId: string): string {
+  const trimmed = modelId.trim();
+  if (trimmed.startsWith("google/")) {
+    return trimmed.slice("google/".length);
   }
   return trimmed;
 }
