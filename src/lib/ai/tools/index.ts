@@ -40,6 +40,8 @@ import { getTime } from "./getTime";
 import { getWeather } from "./getWeather";
 import { summarizeAttachments } from "./summarizeAttachments";
 import { crawlWeb } from "./crawlWeb";
+import { searchAndCrawlWeb } from "./searchAndCrawlWeb";
+import { searchWeb } from "./searchWeb";
 
 // ──────────────────────────────────────────────────────────────────────
 // IMPORT NEW TOOLS HERE
@@ -47,7 +49,6 @@ import { crawlWeb } from "./crawlWeb";
 // Example:
 // import { getUserFromDatabase } from "./getUserFromDatabase";
 // import { sendEmail } from "./sendEmail";
-// import { searchWeb } from "./searchWeb";
 // ──────────────────────────────────────────────────────────────────────
 
 // ============================================================================
@@ -80,7 +81,9 @@ export const tools = {
   // ──────────────────────────────────────────────────────────────────────
   // WEB CRAWLING TOOLS
   // ──────────────────────────────────────────────────────────────────────
-  crawlWeb, // Crawl web pages and convert to Markdown using Teracrawl
+  crawlWeb, // Crawl a single web page and convert to Markdown using Teracrawl
+  searchAndCrawlWeb, // Search Google and scrape top results in parallel (search + scrape)
+  searchWeb, // Search the web and return results without scraping (SERP only)
 
   // ──────────────────────────────────────────────────────────────────────
   // ADD NEW TOOLS HERE
