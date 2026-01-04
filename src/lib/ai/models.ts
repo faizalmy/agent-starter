@@ -62,7 +62,7 @@ export const MODEL_OPTIONS: ModelOption[] = [
   // ──────────────────────────────────────────────────────────────────────
   // OPENAI MODELS
   // ──────────────────────────────────────────────────────────────────────
-  { label: "GPT-5 Nano (default)", id: "openai/gpt-5-nano", provider: "openai" },
+  { label: "GPT-5 Nano", id: "openai/gpt-5-nano", provider: "openai" },
   { label: "GPT-5", id: "openai/gpt-5", provider: "openai" },
   { label: "GPT-4o", id: "openai/gpt-4o", provider: "openai" },
   { label: "o4-mini", id: "openai/o4-mini", provider: "openai" },
@@ -72,9 +72,9 @@ export const MODEL_OPTIONS: ModelOption[] = [
   // ──────────────────────────────────────────────────────────────────────
   // Vercel AI Gateway provides unified access to multiple providers.
   // Requires AI_GATEWAY_API_KEY environment variable.
-  { label: "GPT-5 (AI Gateway)", id: "gateway/openai/gpt-5", provider: "openai" },
-  { label: "Gemini 2.5 Pro (AI Gateway)", id: "gateway/google/gemini-2.5-pro", provider: "google" },
-  { label: "Nano Banana Pro (AI Gateway)", id: "gateway/google/gemini-3-pro-image", provider: "google" },
+  // { label: "GPT-5 (AI Gateway)", id: "gateway/openai/gpt-5", provider: "openai" },
+  // { label: "Gemini 2.5 Pro (AI Gateway)", id: "gateway/google/gemini-2.5-pro", provider: "google" },
+  // { label: "Nano Banana Pro (AI Gateway)", id: "gateway/google/gemini-3-pro-image", provider: "google" },
 
   // ──────────────────────────────────────────────────────────────────────
   // GOOGLE MODELS
@@ -82,8 +82,7 @@ export const MODEL_OPTIONS: ModelOption[] = [
   // Direct Google provider integration for Gemini models.
   // Requires GOOGLE_GENERATIVE_AI_API_KEY environment variable.
   { label: "Gemini 2.5 Pro", id: "google/gemini-2.5-pro", provider: "google" },
-  { label: "Gemini 1.5 Pro", id: "google/gemini-1.5-pro", provider: "google" },
-  { label: "Gemini 1.5 Flash", id: "google/gemini-1.5-flash", provider: "google" },
+  { label: "Gemini 2.5 Flash", id: "google/gemini-2.5-flash", provider: "google" },
 
   // ──────────────────────────────────────────────────────────────────────
   // GROQ MODELS
